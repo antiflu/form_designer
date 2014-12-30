@@ -1,18 +1,26 @@
-{% load i18n %}
+{% load i18n widget_tweaks %}
 <div id="form{{ content.id }}">
   {% if content.show_form_title %}
     <h2>{{ content.form.title }}</h2>
   {% endif %}
   {% if form %}
-  <form method="post" action="#form{{ content.id }}">{% csrf_token %}
+  <form method="post" action="#form{{ content.id }}" class="{{ content.formclass }}">
+    {% csrf_token %}
     <input type="hidden" name="_formcontent" value="{{ content.id }}">
-    <table>
-      {{ form }}
-      <tr>
-        <td>&nbsp;</td>
-        <td><input type="submit" value="{% trans "Submit" %}"></td>
-      </tr>
-    </table>
+    <!--
+        <label for="edit-name">Your name <span class="form-required" title="This field is required.">*</span></label>
+        <input type="text" id="edit-name" name="name" value="" size="60" maxlength="255" class="form-text required">
+    -->
+    {% for field in form %}
+      <div class="{{ content.wrapperdivclass }}">
+        <!-- form-item form-type-textfield form-item-name -->
+        {{ field.errors }}
+        {{ field.label_tag }} 
+        <span class="form-required" title="This field is required.">*</span> 
+        {% render_field field class+="form-text" %}
+      </div>
+    {% endfor %}
+    <input type="submit" value="{{ content.submitmessage }}"></td>
   </form>
   {% else %}
     {{ message|safe }}

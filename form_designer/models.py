@@ -252,6 +252,10 @@ class FormContent(models.Model):
     success_message = models.TextField(
         _('success message'),
         help_text=_("Custom message to display after valid form is submitted"))
+    formclass = models.CharField(max_length=255, verbose_name=_('form classes'))
+    wrapperdivclass = models.CharField(max_length=255, verbose_name=_('wrapper div classes'))
+    label_suffix = models.CharField(max_length=2, verbose_name=_('label suffix'))
+    submit_caption = models.CharField(max_length=40, verbose_name=_('submit button caption'))
 
     template = 'content/form/form.html'
 
