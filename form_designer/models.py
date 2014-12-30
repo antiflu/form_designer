@@ -254,7 +254,7 @@ class FormContent(models.Model):
         help_text=_("Custom message to display after valid form is submitted"))
     formclass = models.CharField(max_length=255, verbose_name=_('form classes'))
     wrapperdivclass = models.CharField(max_length=255, verbose_name=_('wrapper div classes'))
-    label_suffix = models.CharField(max_length=2, verbose_name=_('label suffix'))
+    label_suffix = models.CharField(max_length=2, verbose_name=_('label suffix'), required=False)
     submit_caption = models.CharField(max_length=40, verbose_name=_('submit button caption'))
 
     template = 'content/form/form.html'
@@ -283,7 +283,7 @@ class FormContent(models.Model):
 
         if request.method == 'POST' and (
                 not formcontent or formcontent == smart_text(self.id)):
-            form_instance = form_class(request.POST, prefix=prefix)
+            form_instance = form_class(request.POST, prefix=prefix, label_suffix=self.label_suffix)
 
             if form_instance.is_valid():
                 return self.process_valid_form(
